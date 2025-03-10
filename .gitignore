@@ -7,4 +7,5 @@ out*
 *.iml
 *.jar
 word-list.txt
-simple-inheritance-example/
+simple-inheritance-example
+.DS_Store
