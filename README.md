@@ -48,6 +48,7 @@ To run the tester, use the command `./run-tests.sh`
 ## Results
 
 ### Random Numbers
+_Differs run to run_
 
 | Load Factor | Linear Probing Probes |  Double Hashing Probes  |
 |:-----------:|:---------------------:|:-----------------------:|
@@ -60,6 +61,8 @@ To run the tester, use the command `./run-tests.sh`
 |    0.99     |         42.09         |          4.63           |
 
 ### Dates
+_Differs run to run_
+
 | Load Factor  | Linear Probing Probes  | Double Hashing Probes |
 |:------------:|:----------------------:|:---------------------:|
 |     0.50     |          1.28          |         1.37          |
@@ -71,6 +74,7 @@ To run the tester, use the command `./run-tests.sh`
 |     0.99     |          5.41          |         5.38          |
 
 ### Word List
+_Consistent run to run_
 
 | Load Factor | Linear Probing Probes | Double Hashing Probes |
 |:-----------:|:---------------------:|:---------------------:|
