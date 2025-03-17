@@ -16,7 +16,7 @@ public class TwinPrimeGenerator {
      * @param n the number to check for primality
      * @return true if the number is prime, false otherwise
      */
-    public static boolean isPrime(int n) {
+    private static boolean isPrime(int n) {
         if (n < 2) return false;
         for (int i = 2; i <= Math.sqrt(n); i++) {
             if (n % i == 0) {
@@ -42,18 +42,5 @@ public class TwinPrimeGenerator {
             }
         }
         throw new IllegalArgumentException("No twin primes found in the given range.");
-    }
-
-    /**
-     * Main method for testing the generateTwinPrime method.
-     *
-     * @param args command-line arguments (not used)
-     */
-    public static void main(String[] args) {
-        int min = 95500;
-        int max = 96000;
-        int twinPrime = generateTwinPrime(min, max);
-
-        System.out.println("The larger twin prime in the range [" + min + ", " + max + "] is: " + twinPrime);
     }
 }
