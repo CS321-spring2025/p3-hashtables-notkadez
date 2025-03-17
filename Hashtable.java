@@ -1,3 +1,6 @@
+import java.io.FileNotFoundException;
+import java.io.PrintWriter;
+
 /**
  * Hashtable.java
  *
@@ -11,6 +14,7 @@ public abstract class Hashtable {
     protected HashObject[] table;
     protected int size;  // Current number of elements in the table
     protected int capacity;  // Size of the hash table
+    protected int totalProbe;  // Probe count of table
 
     /**
      * Constructor to initialize the hash table with a given capacity.
@@ -43,24 +47,29 @@ public abstract class Hashtable {
      * Insert a key into the hash table. If the key already exists, its frequency count is incremented.
      *
      * @param key the key to insert into the table
+     * @return the position in the table the key was inserted
      */
-    public void insert(Object key) {
-        int hash = h1(key);
-        int stepSize = h2(key);
+    public int insert(Object key) {
+        int hash = positiveMod(h1(key), capacity);
+        int stepSize = positiveMod(h2(key), capacity);
+        int probeCount = 1; // There is a guaranteed probe
 
-        HashObject hashObject;
-        while ((hashObject = table[hash]) != null && !hashObject.getKey().equals(key)) {
-            hashObject.incrementProbeCount();
-            hash = (hash + stepSize) % capacity;
+        while (table[hash] != null) {
+            if (table[hash].getKey().equals(key)) {
+                table[hash].incrementFrequency();
+                return hash;
+            }
+            hash = positiveMod(hash + stepSize, capacity);
+            probeCount++;
         }
 
-        if (table[hash] == null) {
-            table[hash] = new HashObject(key);
-        } else {
-            table[hash].incrementFrequency();
-        }
+        // Insert new key and update probe count
+        table[hash] = new HashObject(key);
+        table[hash].setProbeCount(probeCount);
 
+        totalProbe += probeCount;
         size++;
+        return hash;
     }
 
     /**
@@ -75,7 +84,6 @@ public abstract class Hashtable {
 
         HashObject hashObject;
         while ((hashObject = table[hash]) != null) {
-            hashObject.incrementProbeCount();
             if (hashObject.getKey().equals(key)) {
                 return table[hash];
             }
@@ -95,25 +103,22 @@ public abstract class Hashtable {
     }
 
     /**
+     * Returns the total probe count
+     *
+     * @return total probe count
+     */
+    public int getProbeCount() {
+        return totalProbe;
+    }
+
+
+    /**
      * Get the capacity of the hash table.
      *
      * @return the capacity of the hash table
      */
     public int getCapacity() {
         return capacity;
-    }
-
-    /**
-     * Print the hash table contents.
-     */
-    public void printTable() {
-        for (int i = 0; i < capacity; i++) {
-            if (table[i] != null) {
-                System.out.println("Index " + i + ": " + table[i].toString());
-            } else {
-                System.out.println("Index " + i + ": null");
-            }
-        }
     }
 
     /**
@@ -132,4 +137,20 @@ public abstract class Hashtable {
         return quotient;
     }
 
+    /**
+     * Dumps the hashtable to a file
+     *
+     * @param fileName the file to dump to
+     */
+    public void dumpToFile(String fileName) {
+        try (PrintWriter out = new PrintWriter(fileName)) {
+            for (int i = 0; i < capacity; i++) {
+                if (table[i] != null) {
+                    out.println("table[" + i + "]: " + table[i].toString());
+                }
+            }
+        } catch (FileNotFoundException e) {
+            System.err.println("Error: Unable to write to file " + fileName);
+        }
+    }
 }
