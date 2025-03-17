@@ -44,10 +44,12 @@ public class HashObject {
     }
 
     /**
-     * Increases the probe count by 1
+     * Sets the probe count to the specified count
+     *
+     * @param probeCount the probeCount to set to
      */
-    public void incrementProbeCount() {
-        this.probeCount++;
+    public void setProbeCount(int probeCount) {
+        this.probeCount = probeCount;
     }
 
     /**
@@ -75,10 +77,6 @@ public class HashObject {
      */
     @Override
     public String toString() {
-        return "HashObject{" +
-                "key=" + key +
-                ", frequencyCount=" + frequencyCount +
-                ", probeCount=" + probeCount +
-                '}';
+        return key.toString() + " " + frequencyCount + " " + probeCount;
     }
 }
