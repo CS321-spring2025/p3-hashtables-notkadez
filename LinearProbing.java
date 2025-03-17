@@ -18,14 +18,14 @@ public class LinearProbing extends Hashtable {
 
     /**
      * Primary hash function for linear probing
-     * h1(k) = k mod m, where k is the key and m is size of table
+     * h1(k) = k mod m, where k is the key and m is capacity of table
      *
      * @param key the key to hash
      * @return the hash value of the key
      */
     @Override
     public int h1(Object key) {
-        return positiveMod(key.hashCode(), size);
+        return positiveMod(key.hashCode(), capacity);
     }
 
     /**

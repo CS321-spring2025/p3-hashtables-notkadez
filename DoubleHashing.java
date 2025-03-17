@@ -18,25 +18,25 @@ public class DoubleHashing extends Hashtable {
 
     /**
      * Primary hash function for double hashing
-     * h1(k) = k mod m, where k is the key and m is size of table
+     * h1(k) = k mod m, where k is the key and m is capacity of table
      *
      * @param key the key to hash
      * @return the hash value of the key
      */
     @Override
     public int h1(Object key) {
-        return positiveMod(key.hashCode(), size);
+        return positiveMod(key.hashCode(), capacity);
     }
 
     /**
      * Secondary hash function for double hashing
-     * h2(k) = 1 + k mod (m - 2), where k is the key and m is size of table
+     * h2(k) = 1 + k mod (m - 2), where k is the key and m is capacity of table
      *
      * @param key the key to hash
      * @return the secondary hash value
      */
     @Override
     public int h2(Object key) {
-        return 1 + positiveMod(key.hashCode(), size - 2);
+        return 1 + positiveMod(key.hashCode(), capacity - 2);
     }
 }
